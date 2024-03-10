@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Blog from './components/BlogUI/Blog';
 import AcademicResources from './components/NavigationComponents/AcademicResources';
-import CreatePost from './components/CreatePost/CreatePost';
+import CreatePost from './components/BlogCRUD/CreatePost';
+import ViewUsers from './components/Administrator/viewUsers';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/health-and-wellness" element={<h2>Health and Wellness Section</h2>} />
         <Route path="/travel" element={<h2>Travel Section</h2>} />
         <Route path="/alumni" element={<h2>Alumni Section</h2>} />
+        <Route path="/viewUsers" element={<ViewUsers />} />
         {/* Add more routes as needed */}
       </Routes>
     </Router>

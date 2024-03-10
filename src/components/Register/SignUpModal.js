@@ -1,5 +1,6 @@
 // SignUpModal.js
 import React from 'react';
+import axios from 'axios';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -13,24 +14,31 @@ import Button from '@mui/material/Button';
 import Backdrop from '@mui/material/Backdrop';
 
 const SignUpModal = ({ isOpen, onClose, onRegister, username, setUsername, password, setPassword, userType, setUserType, firstName, setFirstName, lastName, setLastName }) => {
-  const saveUserData = () => {
+  const saveUserData = async () => {
     const userData = {
       username,
       password,
       userType,
       firstName,
       lastName,
+      enable: true,
     };
-
-    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
-    const userExists = existingUsers.some((user) => user.username === username);
-
-    if (!userExists) {
-      existingUsers.push(userData);
-      localStorage.setItem('users', JSON.stringify(existingUsers));
-      onRegister();
-    } else {
-      console.error('User already exists');
+  
+    try {
+      const response = await axios.post('http://localhost:5000/register', userData);
+  
+      if (response && response.data && response.data.message) {
+        console.log(response.data.message);
+        onRegister();
+      } else {
+        console.error('Unexpected response format:', response);
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.error) {
+        console.error('Error registering user:', error.response.data.error);
+      } else {
+        console.error('Unexpected error format:', error);
+      }
     }
   };
 

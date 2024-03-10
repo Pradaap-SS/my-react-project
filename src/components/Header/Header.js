@@ -43,6 +43,7 @@ function Header(props) {
     setLoggedIn(false);
     // Remove the login status from local storage
     localStorage.removeItem('isLoggedIn');
+    navigate('/Blog');
   };
 
   const handleRegister = () => {
@@ -86,8 +87,20 @@ function Header(props) {
         <IconButton>
           <SearchIcon />
         </IconButton>
+        
         {isLoggedIn ? (
           <>
+            {userType === 'administrator'? (
+              <Button
+                variant="outlined"
+                size="small"
+                component={RouterLink}
+                to="/viewUsers"
+                sx={{ marginX: 1 }}
+              >
+                View Users
+              </Button>
+            ): null}
             <Button
               variant="outlined"
               size="small"
@@ -170,6 +183,8 @@ Header.propTypes = {
     }),
   ).isRequired,
   title: PropTypes.string.isRequired,
+  onSectionClick: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 export default Header;

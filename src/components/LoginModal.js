@@ -1,4 +1,3 @@
-// LoginModal.js
 import React from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
@@ -14,19 +13,33 @@ import Button from '@mui/material/Button';
 import Backdrop from '@mui/material/Backdrop';
 import Link from '@mui/material/Link';
 
-
 const LoginModal = ({ isOpen, onClose, onLogin, onOpenSignUp, username, setUsername, password, setPassword, userType, setUserType }) => {
-  const checkCredentials = () => {
-    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
-    const user = existingUsers.find(
-      (u) => u.username === username && u.password === password && u.userType === userType
-    );
+  const checkCredentials = async () => {
+    try {
+      // Fetch user data from the server
+      const response = await fetch('http://localhost:5000/users');
+      const usersData = await response.json();
 
-    if (user) {
-      onLogin();
-    } else {
-      console.error('Invalid credentials');
-      window.alert('Invalid credentials');
+      // Find the user in the fetched data
+      const user = usersData.find(
+        (u) => u.username === username && u.password === password && u.userType === userType
+      );
+
+      if (user) {
+        if(user.enable === true)
+          onLogin();
+        else{
+        console.error('User Disabled');
+        window.alert('User Disabled by ADMIN');
+        }
+      }
+      else {
+        console.error('Invalid credentials');
+        window.alert('Invalid credentials');
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error.message);
+      window.alert('An error occurred while validating credentials.');
     }
   };
 

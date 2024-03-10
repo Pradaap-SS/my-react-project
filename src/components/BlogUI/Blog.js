@@ -88,6 +88,7 @@ const sidebar = {
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function Blog() {
+  
   return (
     <ThemeProvider theme={createTheme()}>
       <CssBaseline />

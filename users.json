@@ -1,0 +1,18 @@
+[
+  {
+    "username": "Admin",
+    "password": "admin",
+    "userType": "administrator",
+    "firstName": "Admin",
+    "lastName": "Admin",
+    "enable": true
+  },
+  {
+    "username": "gmatkar",
+    "password": "gmatkar",
+    "userType": "student",
+    "firstName": "geeta",
+    "lastName": "matkar",
+    "enable": true
+  }
+]
