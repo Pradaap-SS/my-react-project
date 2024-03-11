@@ -37,10 +37,23 @@ const AcademicResources = () => {
             <h2>{blog.title}</h2>
             <p>{blog.content}</p>
             {/* Display image with inline styling */}
-            {blog.image && (
+            {/* Display image with inline styling */}
+            {blog.image ? (
               <img
-                src={blog.image}  // Assuming the images are in the public folder or have proper paths
+                src={blog.image}
                 alt={blog.title}
+                style={{
+                  maxWidth: '100%',
+                  height: 'auto',
+                  marginTop: '10px',  // Adjust as needed
+                  marginBottom: '10px',  // Adjust as needed
+                }}
+              />
+            ) : (
+              // Use default image link if the image is not available
+              <img
+                src="https://source.unsplash.com/random?wallpapers"
+                alt="Default Image"
                 style={{
                   maxWidth: '100%',
                   height: 'auto',

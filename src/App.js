@@ -4,6 +4,7 @@ import Blog from './components/BlogUI/Blog';
 import AcademicResources from './components/NavigationComponents/AcademicResources';
 import CreatePost from './components/BlogCRUD/CreatePost';
 import ViewUsers from './components/Administrator/viewUsers';
+import Health from './components/NavigationComponents/Health';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Route path="/local-community-resources" element={<h2>Local Community Resources Section</h2>} />
         <Route path="/social" element={<h2>Social Section</h2>} />
         <Route path="/sports" element={<h2>Sports Section</h2>} />
-        <Route path="/health-and-wellness" element={<h2>Health and Wellness Section</h2>} />
+        <Route path="/health-and-wellness" element={<Health/>} />
         <Route path="/travel" element={<h2>Travel Section</h2>} />
         <Route path="/alumni" element={<h2>Alumni Section</h2>} />
         <Route path="/viewUsers" element={<ViewUsers />} />

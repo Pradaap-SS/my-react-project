@@ -121,6 +121,8 @@ function Header(props) {
           </Button>
         )}
       </Toolbar>
+
+      {!isLoggedIn && (
       <Toolbar
         component="nav"
         variant="dense"
@@ -140,6 +142,8 @@ function Header(props) {
           </Link>
         ))}
       </Toolbar>
+    )}
+
 
       {/* Login Modal */}
       <LoginModal
