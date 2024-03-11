@@ -36,6 +36,18 @@
           "title": "Student Organizations on Campus",
           "content": "Illinois Tech gives you the best of both worlds: the excitement of living in an amazing global metropolis, combined with the comfort and small-town feel of attending a private university. With endless options come unlimited opportunities to discover: diversity, inspiration, languages, landscapes, viewpoints, technology, history, future, surprises—and most important, yourself.",
           "image": "./images/campus.jpg"
+        },
+        {
+          "id": "hello world",
+          "title": "Hello World",
+          "content": "Hey World",
+          "image": "https://source.unsplash.com/random?wallpapers"
+        },
+        {
+          "id": "hello",
+          "title": "Hello",
+          "content": "Helliu",
+          "image": "https://source.unsplash.com/random?wallpapers"
         }
       ]
     },
@@ -103,13 +115,6 @@
           "title": "Yoga and Meditation Practices",
           "content": "In the whirlwind of student life, finding a balance between academic demands and personal well-being can feel like an elusive quest. Yet, amidst the chaos, lies a beacon of tranquility: yoga and meditation. These ancient practices offer more than just physical exercise; they cultivate mental clarity and emotional resilience, essential tools for navigating the academic journey. Through yoga, students can harness the power of breath and movement to alleviate stress and enhance focus. The fluidity of poses strengthens both body and mind, promoting a sense of vitality and confidence. Meditation, on the other hand, acts as a mental sanctuary, providing a space for introspection and self-awareness. By quieting the noise of daily life, students can sharpen their concentration and tap into their inner wisdom. Incorporating yoga and meditation into daily routines can yield remarkable benefits, from improved academic performance to heightened well-being. So, amidst the textbooks and deadlines, remember to carve out time for self-care. Your mind and body will thank you, and your academic journey will flourish.",
           "image": "./images/yoga.jpg"
-        },
-        {
-          "id": "HW3",
-          "title": "Benifits of Healthy Eating Habits",
-          "content": "In a world filled with fast food and sugary temptations, maintaining healthy eating habits might seem like a daunting task for students. However, the benefits far outweigh the effort. Not only does a balanced diet provide essential nutrients for optimal brain function, but it also boosts energy levels, enhances concentration, and improves overall mood. By fueling your body with wholesome foods like fruits, vegetables, lean proteins, and whole grains, you're not just nourishing your physical health but also nurturing your mental well-being. Additionally, adopting healthy eating habits early on can establish a foundation for a lifetime of wellness, reducing the risk of chronic diseases such as obesity, diabetes, and heart disease. So, next time you reach for that bag of chips or sugary soda, think about the incredible benefits that come from nourishing your body with the goodness it deserves. Your future self will thank you for it.",
-          "image": "./images/food.jpg"
-
         }
       ]
     },

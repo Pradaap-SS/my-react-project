@@ -2,8 +2,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const path = require('path');
-const multer = require('multer');
 
 
 const app = express();
@@ -68,11 +66,6 @@ app.put('/users/:username', (req, res) => {
   }
 });
 
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
-
 let topics = [];
 try {
   const topicsData = fs.readFileSync('Topics.json', 'utf-8');
@@ -107,6 +100,7 @@ app.post('/createPost', (req, res) => {
   const { title, content, category } = req.body;
   console.log(req.body);
 
+  const image = ''
   const blogPost = {
     id: title.toLowerCase(),
     title,
@@ -122,32 +116,59 @@ app.post('/createPost', (req, res) => {
   }
 });
 
-let topicsData = [];  // Move the declaration outside the try block
+let topicsDel = [];
 
-// Handle DELETE request to delete a blog post
+try {
+  const topicsData = fs.readFileSync('Topics.json', 'utf-8');
+  topicsDel = JSON.parse(topicsData);
+} catch (error) {
+  console.error('Error reading Topics.json:', error);
+}
+
 app.delete('/delete-blog/:topicName/:blogTitle', (req, res) => {
   const { topicName, blogTitle } = req.params;
-  console.log(topicName, blogTitle);
-  console.log(topicsData)
-  const topicIndex = topics.findIndex((topic) => topic.name === topicName);
-  
-  console.log(topicIndex)
+
+  try {
+    const topicsData = fs.readFileSync('Topics.json', 'utf-8');
+    console.log('topicsData:', topicsData);  // Add this line
+    topicsDel = JSON.parse(topicsData);
+    console.log('topicsDel after parsing:', topicsDel);  // Add this line
+  } catch (error) {
+    console.error('Error reading Topics.json:', error);
+  }
+  // Find the index of the topic
+  console.log('topicsDel:', topicsDel);  // Add this line
+
+  const topicIndex = topicsDel.topics.findIndex((topic) => topic.name === topicName);
+
   if (topicIndex !== -1) {
-    const blogIndex = topics[topicIndex].blogs.findIndex((blog) => blog.title === blogTitle);
-    if (blogIndex !== -1) {
-      topics[topicIndex].blogs.splice(blogIndex, 1);
+    // Check if the 'blogs' property exists before accessing it
+    if (topicsDel.topics[topicIndex].blogs) {
+      const blogIndex = topicsDel.topics[topicIndex].blogs.findIndex((blog) => blog.title === blogTitle);
 
-      console.log(topics[topicIndex].blogs.splice(blogIndex, 1))
+      if (blogIndex !== -1) {
+        // Remove the blog from the 'blogs' array
+        topicsDel.topics[topicIndex].blogs.splice(blogIndex, 1);
 
-      fs.writeFileSync('./Topics.json', JSON.stringify(topicsData, null, 2));
+        // Write the updated data back to the file
+        fs.writeFileSync('Topics.json', JSON.stringify(topicsDel, null, 2));
 
-      res.status(200).json({ message: `Blog "${blogTitle}" deleted successfully` });
-      console.log(`Blog "${blogTitle}" deleted successfully`);
+        res.status(200).json({ message: `Blog "${blogTitle}" deleted successfully` });
+        console.log(`Blog "${blogTitle}" deleted successfully`);
+      } else {
+        res.status(404).json({ message: 'Blog not found in the specified topic' });
+      }
     } else {
-      res.status(404).json({ message: 'Blog not found in the specified topic' });
+      res.status(404).json({ message: 'No blogs found in the specified topic' });
     }
   } else {
     res.status(404).json({ message: 'Topic not found' });
   }
 });
+
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
 

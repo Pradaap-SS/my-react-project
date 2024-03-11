@@ -18,11 +18,10 @@ import post3 from './blog-post.3.md';
 
 const sections = [
   { title: 'Academic Resources', url: '/academic-resources' },
-  { title: 'Design', url: '/design' },
-  { title: 'Career Services', url: '/career-services' },
   { title: 'Campus', url: '/campus' },
   { title: 'Culture', url: '/culture' },
   { title: 'Local Community Resources', url: 'local-community-resources' },
+  { title: 'Career Services', url: '/career-services' },
   { title: 'Social', url: '/social' },
   { title: 'Sports', url: '/sports' },
   { title: 'Health and Wellness', url: 'health-and-wellness' },
