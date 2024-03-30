@@ -22,6 +22,81 @@ try {
   console.error('Error reading users.json:', error);
 }
 
+// Function to read users data from the file
+function getUsers() {
+  try {
+    const usersData = fs.readFileSync('users.json', 'utf-8');
+    return JSON.parse(usersData);
+  } catch (error) {
+    console.error('Error reading users.json:', error);
+    return [];
+  }
+}
+
+// Function to write users data to the file
+function saveUsers(users) {
+  try {
+    fs.writeFileSync('users.json', JSON.stringify(users, null, 2), 'utf-8');
+  } catch (error) {
+    console.error('Error writing users data:', error);
+  }
+}
+
+// Function to subscribe a user to a topic
+function subscribeUser(username, topic) {
+  const users = getUsers();
+  const userIndex = users.findIndex((user) => user.username === username);
+
+  if (userIndex !== -1) {
+    if (!users[userIndex].subscriptions.includes(topic)) {
+      users[userIndex].subscriptions.push(topic);
+      saveUsers(users);
+      console.log(`User ${username} subscribed to ${topic}.`);
+      return true;
+    } else {
+      console.error(`User ${username} is already subscribed to ${topic}.`);
+    }
+  } else {
+    console.error(`User ${username} not found.`);
+  }
+  return false;
+}
+
+// Function to unsubscribe a user from a topic
+function unsubscribeUser(username, topic) {
+  const users = getUsers();
+  const userIndex = users.findIndex((user) => user.username === username);
+
+  if (userIndex !== -1) {
+    const subscriptions = users[userIndex].subscriptions;
+    const topicIndex = subscriptions.indexOf(topic);
+    if (topicIndex !== -1) {
+      subscriptions.splice(topicIndex, 1);
+      saveUsers(users);
+      console.log(`User ${username} unsubscribed from ${topic}.`);
+      return true;
+    } else {
+      console.error(`User ${username} is not subscribed to ${topic}.`);
+    }
+  } else {
+    console.error(`User ${username} not found.`);
+  }
+  return false;
+}
+
+// Function to get subscriptions of a user
+function getSubscriptions(username) {
+  const users = getUsers();
+  const user = users.find((user) => user.username === username);
+  console.log("inside getsubscription");
+  if (user) {
+    return user.subscriptions;
+  } else {
+    console.error(`User ${username} not found.`);
+    return [];
+  }
+}
+
 // Endpoint for user registration
 app.post('/register', (req, res) => {
   const userData = req.body;
@@ -167,8 +242,36 @@ app.delete('/delete-blog/:topicName/:blogTitle', (req, res) => {
 });
 
 
+// Endpoint to subscribe a user to a topic
+app.post('/subscribe', (req, res) => {
+  const { username, topic } = req.body;
+  if (subscribeUser(username, topic)) {
+    res.status(200).json({ message: `User ${username} subscribed to ${topic}` });
+  } else {
+    res.status(404).json({ error: 'Subscription failed' });
+  }
+});
+
+// Endpoint to unsubscribe a user from a topic
+app.post('/unsubscribe', (req, res) => {
+  const { username, topic } = req.body;
+  if (unsubscribeUser(username, topic)) {
+    res.status(200).json({ message: `User ${username} unsubscribed from ${topic}` });
+  } else {
+    res.status(404).json({ error: 'Unsubscription failed' });
+  }
+});
+
+// Endpoint to get subscriptions of a user
+app.get('/subscriptions/:username', (req, res) => {
+  const { username } = req.params;
+  const subscriptions = getSubscriptions(username);
+  res.json(subscriptions);
+});
+
+
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
 

@@ -1,5 +1,6 @@
 // Header.js
-import React, { useEffect }  from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,20 +11,39 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import LoginModal from '../LoginModal';
 import SignUpModal from '../Register/SignUpModal';
+//import { subscribeUser, unsubscribeUser } from '../Subscription/subscription'; 
 
 function Header(props) {
   const { sections, title } = props;
-  const [isLoginModalOpen, setLoginModalOpen] = React.useState(false);
-  const [isSignUpModalOpen, setSignUpModalOpen] = React.useState(false);
-  const [isLoggedIn, setLoggedIn] = React.useState(false);
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [userType, setUserType] = React.useState('');
-  const [firstName, setFirstName] = React.useState('');
-  const [lastName, setLastName] = React.useState('');
+  const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+  const [isSignUpModalOpen, setSignUpModalOpen] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [userType, setUserType] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
+  const [subscriptionsDropdownOpen, setSubscriptionsDropdownOpen] = useState(false);
+  const [subscriptions, setSubscriptions] = useState([]);
 
   const navigate = useNavigate();
   const location = useLocation();
+  
+
+
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      setLoggedIn(true);
+      const loggedInUser = localStorage.getItem('username');
+      if (loggedInUser) {
+        setUsername(loggedInUser);
+      }
+    } else {
+      setLoggedIn(false);
+    }
+  }, [location]);
+  
 
   const handleLogin = () => {
     // Handle login logic (e.g., check credentials)
@@ -34,6 +54,7 @@ function Header(props) {
     setLoggedIn(true);
     // Store the login status in local storage
     localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('username', username); 
   };
 
   const handleLogout = () => {
@@ -57,21 +78,64 @@ function Header(props) {
     navigate('/createPost');
   };
 
-  useEffect(() => {
-    // Update buttons based on the current route or other conditions
-    console.log('Current route:', location.pathname);
-
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
+  const fetchSubscriptions = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/subscriptions/${username}`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setSubscriptions(data);
+      } else {
+        console.error('Failed to fetch subscriptions');
+      }
+    } catch (error) {
+      console.error('Error fetching subscriptions:', error);
     }
-  }, [location]);
+  };
+  
+  const handleSubscriptionToggle = async (topic) => {
+    try {
+      await fetchSubscriptions();
+  
+      const endpoint = username && subscriptions.includes(topic) ? '/unsubscribe' : '/subscribe';
+  
+      const response = await fetch(`http://localhost:5000${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: username, topic })
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message); // Log success message
+      } else {
+        console.error('Subscription toggle failed:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error toggling subscription:', error.message);
+    }
+  };
+  
+  const toggleSubscriptionsDropdown = async () => {
+    console.log("user");
+    console.log(username);
+    try {
+      console.log(username);
+      await fetchSubscriptions();
+      setSubscriptionsDropdownOpen(!subscriptionsDropdownOpen);
+    } catch (error) {
+      console.error('Error fetching subscriptions:', error);
+    }
+  };
+  
+  
 
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
-      <Button size="small" onClick={() => navigate('/Blog')}>
+        <Button size="small" onClick={() => navigate('/Blog')}>
           Home
         </Button>
         <Typography
@@ -83,24 +147,51 @@ function Header(props) {
           sx={{ flex: 1 }}
         >
           {title}
+          
+          {title !== "Blog" && ( // Check if title is not "Blog"
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => handleSubscriptionToggle(title)}
+              sx={{ marginX: 1 }}
+            >
+              {username && subscriptions.includes(title)
+                ? 'Unsubscribe'
+                : 'Subscribe'}
+            </Button>
+          )}
         </Typography>
+
         <IconButton>
           <SearchIcon />
         </IconButton>
-        
+
         {isLoggedIn ? (
           <>
-            {userType === 'administrator'? (
-              <Button
-                variant="outlined"
-                size="small"
-                component={RouterLink}
-                to="/viewUsers"
-                sx={{ marginX: 1 }}
-              >
-                View Users
-              </Button>
-            ): null}
+          {/* Subscriptions Dropdown */}
+          <div>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={toggleSubscriptionsDropdown}
+              sx={{ marginX: 1 }}
+            >
+              Subscriptions
+            </Button>
+            {subscriptionsDropdownOpen && (
+              <div style={{ position: 'absolute', backgroundColor: 'white', zIndex: 1, borderRadius: '0.5rem' }}>
+                <ul>
+                  {subscriptions.map((subscription) => (
+                    <li key={subscription} className="font-bold py-2 px-4 hover:bg-gray-200">
+                      {subscription}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+
             <Button
               variant="outlined"
               size="small"
@@ -122,28 +213,28 @@ function Header(props) {
         )}
       </Toolbar>
 
-      {!isLoggedIn && (
-      <Toolbar
-        component="nav"
-        variant="dense"
-        sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
-      >
-        {sections.map((section) => (
-          <Link
-            component={RouterLink}
-            color="inherit"
-            noWrap
-            key={section.title}
-            variant="body2"
-            to={section.url}
-            sx={{ p: 1, flexShrink: 0 }}
-          >
-            {section.title}
-          </Link>
-        ))}
-      </Toolbar>
-    )}
-
+      {isLoggedIn && (
+        <Toolbar
+          component="nav"
+          variant="dense"
+          sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
+        >
+          {sections.map((section) => (
+            <div key={section.title} style={{ display: 'flex', alignItems: 'center' }}>
+              <Link
+                component={RouterLink}
+                color="inherit"
+                noWrap
+                variant="body2"
+                to={section.url}
+                sx={{ p: 1, flexShrink: 0 }}
+              >
+                {section.title}
+              </Link>
+            </div>
+          ))}
+        </Toolbar>
+      )}
 
       {/* Login Modal */}
       <LoginModal
@@ -184,11 +275,9 @@ Header.propTypes = {
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
-    }),
+    })
   ).isRequired,
   title: PropTypes.string.isRequired,
-  onSectionClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 export default Header;

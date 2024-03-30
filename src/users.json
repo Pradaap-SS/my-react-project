@@ -13,6 +13,18 @@
     "userType": "student",
     "firstName": "geeta",
     "lastName": "matkar",
+    "enable": true,
+    "subscriptions": [
+      "Campus",
+      "Culture"
+    ]
+  },
+  {
+    "username": "pradaap",
+    "password": "pradaap",
+    "userType": "student",
+    "firstName": "pradaap",
+    "lastName": "s",
     "enable": true
   }
 ]

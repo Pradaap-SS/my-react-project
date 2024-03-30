@@ -14,6 +14,12 @@
           "title": "Galvin Library",
           "content": "Textbooks and other course reserves allow students to use materials set aside by faculty to assist in coursework. This may include textbooks, reading material, practice exams, problem sets, etc. For questions on reserves, contact the library at library@iit.edu. Print Reserve materials are available only at the Circulation Desk. This includes books, videos, textbooks, and other copyrighted material. These materials can only be checked out by the IIT community or members of other I-SHARE libraries, and must be returned during the allotted loan period (usually 2 hours). Library users are only allowed to check out one reserve item at a time. Reserve materials cannot be renewed and must be returned directly to the Circulation Desk. There is a 15-minute waiting period before re-borrowing a returned reserve item.It is not library policy, nor practice, to purchase circulating copies of textbooks for students. Some current textbooks have been placed on reserve.",
           "image": "./images/gl.jpg"
+        },
+        {
+          "id": "uml ",
+          "title": "UML ",
+          "content": "The unified modeling language (UML) is a general-purpose visual modeling language that is intended to provide a standard way to visualize the design of a system.[1]\n\nUML provides a standard notation for many types of diagrams which can be roughly divided into three main groups: behavior diagrams, interaction diagrams, and structure diagrams.\n\nThe creation of UML was originally motivated by the desire to standardize the disparate notational systems and approaches to software design. It was developed at Rational Software in 1994–1995, with further development led by them through 1996.[1]",
+          "image": "https://source.unsplash.com/random?wallpapers"
         }
       ]
     },
@@ -36,18 +42,6 @@
           "title": "Student Organizations on Campus",
           "content": "Illinois Tech gives you the best of both worlds: the excitement of living in an amazing global metropolis, combined with the comfort and small-town feel of attending a private university. With endless options come unlimited opportunities to discover: diversity, inspiration, languages, landscapes, viewpoints, technology, history, future, surprises—and most important, yourself.",
           "image": "./images/campus.jpg"
-        },
-        {
-          "id": "hello world",
-          "title": "Hello World",
-          "content": "Hey World",
-          "image": "https://source.unsplash.com/random?wallpapers"
-        },
-        {
-          "id": "hello",
-          "title": "Hello",
-          "content": "Helliu",
-          "image": "https://source.unsplash.com/random?wallpapers"
         }
       ]
     },
@@ -59,12 +53,6 @@
           "title": "Celebrating Diversity",
           "content": "Diversity isn't merely a buzzword—it's the essence of our collective strength. Students wield the power to cultivate inclusive environments where every voice is heard, every culture revered. From organizing multicultural events to championing equity in education, our differences become our greatest assets. Let's dismantle barriers, foster empathy, and create a campus tapestry woven with threads of unity. Together, we celebrate diversity in its fullest brilliance.",
           "image": "./images/diversity.jpg"
-        },
-        {
-          "id": "CU2",
-          "title": "Cultural Festivals Around the World",
-          "content": "As a student, why limit your horizons to textbooks? Explore the world through its kaleidoscope of cultural festivals! Whether it's the flamboyant Diwali in India or the enchanting Hanami in Japan, these celebrations offer insights into traditions, values, and community spirit. Expand your worldview, make new friends, and create unforgettable memories as you partake in the global tapestry of festivities.",
-          "image": "./images/festival.jpg"
         }
       ]
     },
@@ -104,12 +92,6 @@
     {
       "name": "Health and Wellness",
       "blogs": [
-        {
-          "id": "HW1",
-          "title": "Mental Health Awareness",
-          "content": "In the bustling halls of academia, mental health often hides behind a facade of academic success. Yet, beneath the surface, students grapple with anxiety, depression, and other silent adversaries. This article aims to shed light on this pressing issue and provide practical tips for maintaining mental well-being. From the burden of perfectionism to the isolation of homesickness, students face myriad challenges that can impact mental health. Recognizing the signs of distress is crucial, as is destigmatizing seeking help. Universities offer resources such as counseling services and support groups, which can serve as lifelines during tough times. Moreover, self-care practices like mindfulness, exercise, and hobbies play a pivotal role in nurturing mental health. Prioritizing rest and setting boundaries are equally important in fostering a balanced lifestyle. By fostering open conversations and embracing support networks, students can navigate the complexities of mental health with resilience and compassion.",
-          "image": "./images/health.jpg"
-        },
         {
           "id": "HW2",
           "title": "Yoga and Meditation Practices",
